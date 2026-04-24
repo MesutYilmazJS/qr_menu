@@ -1,0 +1,9 @@
+# Mac OS
+.DS_Store
+
+# Editor directories and files
+.vscode/
+.idea/
+
+# Project Tracking
+PROGRESS.md

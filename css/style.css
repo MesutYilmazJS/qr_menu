@@ -1,0 +1,37 @@
+/* Custom Styles & Utilities on top of Tailwind */
+
+/* Hide scrollbar for category navigation but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Smooth Image Loading */
+.img-loading {
+    filter: blur(10px) grayscale(100%);
+    opacity: 0.5;
+    transition: all 0.5s ease-in-out;
+}
+.img-loaded {
+    filter: blur(0) grayscale(0);
+    opacity: 1;
+}
+
+/* Premium Card Hover Effects */
+.menu-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (hover: hover) {
+    .menu-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Category Pill Active State Transition */
+.category-pill {
+    transition: all 0.3s ease;
+}
