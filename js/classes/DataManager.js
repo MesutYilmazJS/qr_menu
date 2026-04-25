@@ -1,6 +1,17 @@
 class DataManager {
     constructor(data) {
-        this.rawData = data;
+        // Try loading custom dashboard edits first
+        const customData = localStorage.getItem('qr_menu_custom_data');
+        if (customData) {
+            try {
+                this.rawData = JSON.parse(customData);
+            } catch(e) {
+                this.rawData = data;
+            }
+        } else {
+            this.rawData = data;
+        }
+
         this.currentLanguage = localStorage.getItem('appLang') || 'tr';
         if (!this.rawData[this.currentLanguage]) {
             this.currentLanguage = 'tr';

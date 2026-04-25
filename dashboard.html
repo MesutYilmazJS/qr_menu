@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth bg-brand-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yönetim Paneli - La Brasserie</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f9f8f6',
+                            100: '#f0ece3',
+                            500: '#b89876',
+                            800: '#4a3f35',
+                            900: '#1a1816',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-brand-900 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Login View -->
+    <div id="login-view" class="flex-1 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-brand-100 w-full max-w-sm">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-serif font-bold text-brand-900 mb-2">La Brasserie</h1>
+                <p class="text-sm text-brand-500">Yönetim Paneli Girişi</p>
+            </div>
+            
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-brand-800 mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="username" class="w-full bg-brand-50 border border-brand-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 transition-colors" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-800 mb-1">Şifre</label>
+                    <input type="password" id="password" class="w-full bg-brand-50 border border-brand-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 transition-colors" required>
+                </div>
+                <div id="login-error" class="text-red-500 text-xs hidden text-center">Hatalı kullanıcı adı veya şifre!</div>
+                <button type="submit" class="w-full bg-brand-900 text-white rounded-xl py-3 font-medium hover:bg-brand-800 transition-colors mt-2">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard View (Hidden by default) -->
+    <div id="dashboard-view" class="hidden flex-1 h-[100dvh] overflow-hidden flex-col md:flex-row">
+        <!-- Sidebar (Desktop) / Bottom Nav (Mobile) -->
+        <aside class="w-full md:w-64 bg-white border-t md:border-t-0 md:border-r border-brand-100 flex md:flex-col h-16 md:h-full z-20 shrink-0 order-2 md:order-1">
+            <div class="hidden md:block p-6 border-b border-brand-100">
+                <h1 class="text-2xl font-serif font-bold text-brand-900 leading-tight">La Brasserie</h1>
+                <p class="text-xs text-brand-500 font-medium uppercase tracking-widest mt-1">Yönetim Paneli</p>
+            </div>
+            
+            <nav class="flex-1 flex md:flex-col overflow-x-auto md:overflow-y-auto p-2 md:p-4 gap-2 no-scrollbar justify-start md:justify-start items-center md:items-stretch w-full scroll-smooth">
+                <button class="nav-btn active flex-1 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm font-medium rounded-xl text-brand-900 bg-brand-50 transition-colors text-center md:text-left shrink-0 min-w-[70px] md:min-w-0" data-target="pending-view" data-title="Aktif Siparişler">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span class="truncate">Siparişler</span>
+                </button>
+                <button class="nav-btn flex-1 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm font-medium rounded-xl text-brand-800 hover:bg-brand-50 hover:text-brand-900 transition-colors text-center md:text-left shrink-0 min-w-[70px] md:min-w-0" data-target="completed-view" data-title="Tamamlanan Siparişler">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span class="truncate">Tamamlanan</span>
+                </button>
+                <button class="nav-btn flex-1 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm font-medium rounded-xl text-brand-800 hover:bg-brand-50 hover:text-brand-900 transition-colors text-center md:text-left shrink-0 min-w-[70px] md:min-w-0" data-target="cancelled-view" data-title="İptal Edilen Siparişler">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                    <span class="truncate">İptaller</span>
+                </button>
+                <button class="nav-btn flex-1 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm font-medium rounded-xl text-brand-800 hover:bg-brand-50 hover:text-brand-900 transition-colors text-center md:text-left shrink-0 min-w-[70px] md:min-w-0" data-target="stats-view" data-title="İstatistikler">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+                    <span class="truncate">İstatistik</span>
+                </button>
+                <button class="nav-btn flex-1 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2 md:py-3 text-[10px] md:text-sm font-medium rounded-xl text-brand-800 hover:bg-brand-50 hover:text-brand-900 transition-colors text-center md:text-left shrink-0 min-w-[70px] md:min-w-0" data-target="menu-management-view" data-title="Menü Yönetimi">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <span class="truncate">Menü</span>
+                </button>
+                
+                <!-- Mobile Logout Button -->
+                <div class="md:hidden flex items-center justify-center px-2 shrink-0 min-w-[60px]">
+                    <button class="logout-btn p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors flex flex-col items-center gap-1 w-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        <span class="text-[10px] font-medium">Çıkış</span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Desktop Logout Button -->
+            <div class="hidden md:block p-4 border-t border-brand-100">
+                <button class="logout-btn w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Çıkış Yap
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 h-full overflow-y-auto bg-brand-50 flex flex-col order-1 md:order-2">
+            <header class="bg-white border-b border-brand-100 px-4 md:px-8 py-3 md:py-5 flex justify-between items-center sticky top-0 z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <h2 id="page-title" class="text-lg md:text-xl font-serif font-bold text-brand-900">Aktif Siparişler</h2>
+                </div>
+                <button id="refresh-orders" class="text-xs md:text-sm bg-brand-100 text-brand-800 px-3 md:px-4 py-2 rounded-lg hover:bg-brand-500 hover:text-white transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.22l-5.07 5.07"></path></svg>
+                    <span class="hidden md:inline">Yenile</span>
+                </button>
+            </header>
+
+            <div class="p-4 md:p-8 flex-1">
+                <!-- Pending Orders View -->
+                <div id="pending-view" class="dashboard-page block">
+                    <div id="pending-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"></div>
+                </div>
+
+                <!-- Completed Orders View -->
+                <div id="completed-view" class="dashboard-page hidden">
+                    <div id="completed-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"></div>
+                </div>
+
+                <!-- Cancelled Orders View -->
+                <div id="cancelled-view" class="dashboard-page hidden">
+                    <div id="cancelled-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6"></div>
+                </div>
+
+                <!-- Stats View -->
+                <div id="stats-view" class="dashboard-page hidden">
+                    <!-- Top Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+                        <div class="bg-white p-5 md:p-6 rounded-2xl border border-brand-100 shadow-sm text-center">
+                            <p class="text-xs md:text-sm text-brand-500 font-medium mb-1">Toplam Kazanç</p>
+                            <p id="stat-total-revenue" class="text-2xl md:text-3xl font-bold text-brand-900">0₺</p>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-2xl border border-brand-100 shadow-sm text-center">
+                            <p class="text-xs md:text-sm text-brand-500 font-medium mb-1">Toplam Sipariş</p>
+                            <p id="stat-total-orders" class="text-2xl md:text-3xl font-bold text-brand-900">0</p>
+                        </div>
+                        <div class="bg-white p-5 md:p-6 rounded-2xl border border-brand-100 shadow-sm text-center">
+                            <p class="text-xs md:text-sm text-brand-500 font-medium mb-1">Bugünkü Siparişler</p>
+                            <p id="stat-today-orders" class="text-2xl md:text-3xl font-bold text-brand-900">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-8">
+                        <!-- Revenue Chart -->
+                        <div class="bg-white p-4 md:p-6 rounded-2xl border border-brand-100 shadow-sm overflow-hidden">
+                            <h3 class="text-base md:text-lg font-bold text-brand-900 mb-4 font-serif">Son 7 Günlük Kazanç</h3>
+                            <div class="relative h-48 md:h-64 w-full">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Top Items Chart -->
+                        <div class="bg-white p-4 md:p-6 rounded-2xl border border-brand-100 shadow-sm overflow-hidden">
+                            <h3 class="text-base md:text-lg font-bold text-brand-900 mb-4 font-serif">En Çok Satılan 5 Ürün</h3>
+                            <div class="relative h-48 md:h-64 w-full flex justify-center">
+                                <canvas id="itemsChart"></canvas>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Peak Hours Chart (Full Width) -->
+                        <div class="bg-white p-4 md:p-6 rounded-2xl border border-brand-100 shadow-sm lg:col-span-2 overflow-hidden">
+                            <h3 class="text-base md:text-lg font-bold text-brand-900 mb-4 font-serif">Saatlere Göre Yoğunluk</h3>
+                            <div class="relative h-48 md:h-64 w-full">
+                                <canvas id="hoursChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Management View -->
+                <div id="menu-management-view" class="dashboard-page hidden">
+                    <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden flex flex-col">
+                        <div class="p-4 md:p-6 border-b border-brand-100 flex justify-between items-center bg-brand-50/50">
+                            <p class="text-sm text-brand-500">Mevcut menünüzdeki fiyatları ve isimleri anlık olarak güncelleyebilirsiniz.</p>
+                            <button id="save-menu-btn" class="bg-brand-900 text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-800 transition-colors shadow-md">Tümünü Kaydet</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-brand-50 border-b border-brand-100 text-[10px] md:text-xs uppercase text-brand-500 font-semibold tracking-wider">
+                                        <th class="p-2 md:p-4 whitespace-nowrap">Görsel</th>
+                                        <th class="p-2 md:p-4 whitespace-nowrap">Ürün Adı (TR)</th>
+                                        <th class="p-2 md:p-4 whitespace-nowrap hidden sm:table-cell">Kategori</th>
+                                        <th class="p-2 md:p-4 whitespace-nowrap">Fiyat (₺)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="menu-editor-container" class="text-sm text-brand-800 divide-y divide-brand-50">
+                                    <!-- Editable rows will be injected here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Data -->
+    <script src="js/data.js?v=2"></script>
+    <script src="js/dashboard.js?v=2"></script>
+</body>
+</html>

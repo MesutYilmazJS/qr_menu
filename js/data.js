@@ -336,7 +336,14 @@ const translations = {
         searchResultsFor: '"{0}" için sonuçlar',
         noItemsFound: "Bu kategoride henüz ürün bulunmamaktadır.",
         inspectText: "İncele",
-        matchDayInfo: "Maç Günü +290 ₺"
+        matchDayInfo: "Maç Günü +290 ₺",
+        addToCart: "Sepete Ekle",
+        cartTitle: "Sepetim",
+        totalText: "Toplam:",
+        checkoutBtn: "Siparişi Tamamla",
+        emptyCart: "Sepetiniz henüz boş.",
+        orderSuccess: "Siparişiniz başarıyla alındı!",
+        tablePrompt: "Lütfen masa numaranızı girin:"
     },
     en: {
         fineDining: "Fine Dining",
@@ -348,7 +355,14 @@ const translations = {
         searchResultsFor: 'Results for "{0}"',
         noItemsFound: "There are no items in this category yet.",
         inspectText: "Inspect",
-        matchDayInfo: "Match Day +290 ₺"
+        matchDayInfo: "Match Day +290 ₺",
+        addToCart: "Add to Cart",
+        cartTitle: "My Cart",
+        totalText: "Total:",
+        checkoutBtn: "Place Order",
+        emptyCart: "Your cart is currently empty.",
+        orderSuccess: "Your order has been successfully placed!",
+        tablePrompt: "Please enter your table number:"
     },
     ru: {
         fineDining: "Высокая кухня",
@@ -360,6 +374,17 @@ const translations = {
         searchResultsFor: 'Результаты для "{0}"',
         noItemsFound: "В этой категории пока нет товаров.",
         inspectText: "Изучить",
-        matchDayInfo: "День матча +290 ₺"
+        matchDayInfo: "День матча +290 ₺",
+        addToCart: "В корзину",
+        cartTitle: "Моя корзина",
+        totalText: "Итого:",
+        checkoutBtn: "Оформить заказ",
+        emptyCart: "Ваша корзина пуста.",
+        orderSuccess: "Ваш заказ успешно оформлен!",
+        tablePrompt: "Пожалуйста, введите номер вашего стола:"
     }
 };
+
+// Explicitly expose to window to prevent module/scope isolation issues
+window.menuData = menuData;
+window.translations = translations;
