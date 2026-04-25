@@ -187,9 +187,12 @@
                 <!-- Menu Management View -->
                 <div id="menu-management-view" class="dashboard-page hidden">
                     <div class="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden flex flex-col">
-                        <div class="p-4 md:p-6 border-b border-brand-100 flex justify-between items-center bg-brand-50/50">
+                        <div class="p-4 md:p-6 border-b border-brand-100 flex flex-wrap gap-4 justify-between items-center bg-brand-50/50">
                             <p class="text-sm text-brand-500">Mevcut menünüzdeki fiyatları ve isimleri anlık olarak güncelleyebilirsiniz.</p>
-                            <button id="save-menu-btn" class="bg-brand-900 text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-800 transition-colors shadow-md">Tümünü Kaydet</button>
+                            <div class="flex gap-2">
+                                <button id="add-category-btn" class="bg-white border border-brand-200 text-brand-800 text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-50 transition-colors shadow-sm">Kategori Ekle</button>
+                                <button id="save-menu-btn" class="bg-brand-900 text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-brand-800 transition-colors shadow-md">Tümünü Kaydet</button>
+                            </div>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left border-collapse">
@@ -210,6 +213,31 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="category-modal" class="fixed inset-0 bg-brand-900/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl border border-brand-100 w-full max-w-md overflow-hidden transform transition-all">
+            <div class="p-6 border-b border-brand-100 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-brand-900 font-serif">Yeni Kategori Ekle</h3>
+                <button id="close-category-modal" class="text-brand-400 hover:text-brand-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <form id="add-category-form" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-brand-800 mb-1">Kategori Adı (TR)</label>
+                    <input type="text" id="new-cat-name-tr" class="w-full bg-brand-50 border border-brand-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500" placeholder="Örn: Ana Yemekler" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-800 mb-1">Kategori Adı (EN)</label>
+                    <input type="text" id="new-cat-name-en" class="w-full bg-brand-50 border border-brand-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500" placeholder="Örn: Main Courses" required>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-brand-900 text-white rounded-xl py-3 font-medium hover:bg-brand-800 transition-colors">Kategoriyi Oluştur</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Data -->

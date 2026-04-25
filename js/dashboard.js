@@ -526,7 +526,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (err) {
                 console.error("Kaydetme sirasinda hata: ", err);
-                alert("Kaydetme sırasında bir hata oluştu. Lütfen sayfayı yenileyip tekrar deneyin.");
+                alert("Kaydetme sırasında bir hata oluştu.");
+            }
+        });
+    }
+
+    // --- Category Management ---
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    const categoryModal = document.getElementById('category-modal');
+    const closeCategoryModal = document.getElementById('close-category-modal');
+    const addCategoryForm = document.getElementById('add-category-form');
+
+    if (addCategoryBtn && categoryModal) {
+        addCategoryBtn.addEventListener('click', () => {
+            categoryModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeCategoryModal && categoryModal) {
+        closeCategoryModal.addEventListener('click', () => {
+            categoryModal.classList.add('hidden');
+        });
+        
+        // Close on backdrop click
+        categoryModal.addEventListener('click', (e) => {
+            if (e.target === categoryModal) categoryModal.classList.add('hidden');
+        });
+    }
+
+    if (addCategoryForm) {
+        addCategoryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            try {
+                if (!editableMenuData) {
+                    editableMenuData = JSON.parse(JSON.stringify(window.menuData || menuData));
+                }
+
+                const nameTr = document.getElementById('new-cat-name-tr').value.trim();
+                const nameEn = document.getElementById('new-cat-name-en').value.trim();
+                
+                if (!nameTr) return;
+
+                // Simple ID generation
+                const newId = nameEn.toLowerCase().replace(/[^a-z0-s]/g, '-') || Date.now().toString();
+                
+                // Add to TR
+                if (!editableMenuData.tr.categories) editableMenuData.tr.categories = [];
+                editableMenuData.tr.categories.push({ id: newId, name: nameTr });
+                
+                // Add to EN
+                if (editableMenuData.en) {
+                    if (!editableMenuData.en.categories) editableMenuData.en.categories = [];
+                    editableMenuData.en.categories.push({ id: newId, name: nameEn || nameTr });
+                }
+
+                // Add to RU if exists
+                if (editableMenuData.ru) {
+                    if (!editableMenuData.ru.categories) editableMenuData.ru.categories = [];
+                    editableMenuData.ru.categories.push({ id: newId, name: nameEn || nameTr });
+                }
+
+                // Save
+                localStorage.setItem('qr_menu_custom_data', JSON.stringify(editableMenuData));
+                
+                // UI updates
+                categoryModal.classList.add('hidden');
+                addCategoryForm.reset();
+                alert(`"${nameTr}" kategorisi başarıyla eklendi!`);
+                
+                // Refresh the editor (to show updated category list in rows if needed)
+                renderMenuEditor();
+
+            } catch (err) {
+                console.error("Kategori ekleme hatasi:", err);
+                alert("Kategori eklenirken bir hata oluştu.");
             }
         });
     }
