@@ -53,7 +53,7 @@ class MenuApp {
 
         langOptions.forEach(option => {
             option.addEventListener('click', (e) => {
-                const lang = e.target.getAttribute('data-lang');
+                const lang = e.currentTarget.getAttribute('data-lang');
                 this.changeLanguage(lang);
                 langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
                 langDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
@@ -130,8 +130,16 @@ class MenuApp {
         const t = translations[lang];
         if (!t) return;
 
+        const flags = {
+            'tr': '🇹🇷',
+            'en': '🇬🇧',
+            'ru': '🇷🇺'
+        };
+
         const langToggleBtn = document.getElementById('lang-toggle-btn');
-        if (langToggleBtn) langToggleBtn.textContent = lang.toUpperCase();
+        if (langToggleBtn) {
+            langToggleBtn.innerHTML = `<span class="text-lg leading-none">${flags[lang] || ''}</span> ${lang.toUpperCase()}`;
+        }
 
         document.documentElement.lang = lang;
 
