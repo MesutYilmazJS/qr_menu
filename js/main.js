@@ -14,14 +14,6 @@ class MenuApp {
         this.updateStaticTexts();
         this.setupEventListeners();
         this.render();
-        
-        // Show bottom bar after a short delay for a nice effect
-        setTimeout(() => {
-            const bottomBar = document.getElementById('bottom-bar');
-            if(bottomBar) {
-                bottomBar.classList.remove('translate-y-full');
-            }
-        }, 1000);
     }
 
     setupEventListeners() {
@@ -158,6 +150,16 @@ class MenuApp {
         const elReviewBtnText = document.getElementById('review-btn-text');
         if (elReviewBtnText) elReviewBtnText.textContent = t.reviewBtn;
         
+        const topBarTexts = [
+            document.getElementById('top-bar-text'),
+            document.getElementById('top-bar-text-2'),
+            document.getElementById('top-bar-text-3'),
+            document.getElementById('top-bar-text-4')
+        ];
+        topBarTexts.forEach(el => {
+            if (el) el.textContent = t.matchDayInfo;
+        });
+
         // Also update category title placeholder if on 'all' and no search
         if (this.currentCategoryId === 'all' && (!this.searchQuery || this.searchQuery.trim() === '')) {
              if (this.renderer && this.renderer.categoryTitle) {

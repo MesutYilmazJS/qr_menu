@@ -335,7 +335,8 @@ const translations = {
         reviewBtn: "Google'da Puan Ver",
         searchResultsFor: '"{0}" için sonuçlar',
         noItemsFound: "Bu kategoride henüz ürün bulunmamaktadır.",
-        inspectText: "İncele"
+        inspectText: "İncele",
+        matchDayInfo: "Maç Günü +290 ₺"
     },
     en: {
         fineDining: "Fine Dining",
@@ -346,7 +347,8 @@ const translations = {
         reviewBtn: "Rate on Google",
         searchResultsFor: 'Results for "{0}"',
         noItemsFound: "There are no items in this category yet.",
-        inspectText: "Inspect"
+        inspectText: "Inspect",
+        matchDayInfo: "Match Day +290 ₺"
     },
     ru: {
         fineDining: "Высокая кухня",
@@ -357,6 +359,7 @@ const translations = {
         reviewBtn: "Оценить в Google",
         searchResultsFor: 'Результаты для "{0}"',
         noItemsFound: "В этой категории пока нет товаров.",
-        inspectText: "Изучить"
+        inspectText: "Изучить",
+        matchDayInfo: "День матча +290 ₺"
     }
 };

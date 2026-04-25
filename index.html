@@ -36,6 +36,22 @@
 
     <!-- Header Section -->
     <header class="sticky top-0 z-50 bg-brand-50/90 backdrop-blur-md border-b border-brand-100 px-4 py-4 transition-all duration-300" id="main-header">
+        <!-- Top Announcement Bar -->
+        <div class="bg-brand-900 text-white py-2 z-[60] relative overflow-hidden -mx-4 -mt-4 mb-4" id="top-bar">
+            <marquee scrollamount="5" class="text-sm font-medium w-full flex items-center">
+                <span class="inline-flex items-center gap-2">
+                    <span class="text-brand-500 text-lg leading-none">⚽</span>
+                    <span id="top-bar-text" class="tracking-wide pr-12"></span>
+                    <span class="text-brand-500 text-lg leading-none">⚽</span>
+                    <span id="top-bar-text-2" class="tracking-wide pr-12"></span>
+                    <span class="text-brand-500 text-lg leading-none">⚽</span>
+                    <span id="top-bar-text-3" class="tracking-wide pr-12"></span>
+                    <span class="text-brand-500 text-lg leading-none">⚽</span>
+                    <span id="top-bar-text-4" class="tracking-wide pr-12"></span>
+                </span>
+            </marquee>
+        </div>
+
         <div class="flex justify-between items-center max-w-7xl mx-auto">
             <div>
                 <h1 class="text-2xl font-serif font-bold text-brand-900 tracking-tight">La Brasserie</h1>
@@ -93,10 +109,6 @@
             <!-- Menu items will be injected here via JS -->
         </div>
     </main>
-
-    <!-- Footer / Sticky Bottom Bar (Optional Cart/Table Info) -->
-    <div class="fixed bottom-0 left-0 w-full bg-brand-900 text-white p-4 text-center text-sm font-medium z-40 transform translate-y-full transition-transform duration-300" id="bottom-bar">
-    </div>
 
     <!-- Google Review Modal -->
     <div id="review-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
