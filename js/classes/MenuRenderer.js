@@ -33,7 +33,9 @@ class MenuRenderer {
         const currency = this.dataManager.getCurrency();
 
         if (items.length === 0) {
-            this.menuContainer.innerHTML = '<p class="text-center text-brand-500 py-10">Bu kategoride henüz ürün bulunmamaktadır.</p>';
+            const lang = this.dataManager.currentLanguage;
+            const t = translations[lang] || translations['tr'];
+            this.menuContainer.innerHTML = `<p class="text-center text-brand-500 py-10">${t.noItemsFound}</p>`;
             return;
         }
 
@@ -65,7 +67,7 @@ class MenuRenderer {
                     <!-- Decorative line & Action (Optional) -->
                     <div class="mt-auto flex items-center justify-between">
                         <div class="w-12 h-[1px] bg-brand-100"></div>
-                        <span class="text-[10px] uppercase tracking-widest text-brand-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">İncele</span>
+                        <span class="text-[10px] uppercase tracking-widest text-brand-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">${(translations[this.dataManager.currentLanguage] || translations['tr']).inspectText}</span>
                     </div>
                 </div>
             `;

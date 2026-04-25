@@ -11,6 +11,7 @@ class MenuApp {
     }
 
     init() {
+        this.updateStaticTexts();
         this.setupEventListeners();
         this.render();
         
@@ -24,6 +25,41 @@ class MenuApp {
     }
 
     setupEventListeners() {
+        // Language Switcher functionality
+        const langToggleBtn = document.getElementById('lang-toggle-btn');
+        const langDropdown = document.getElementById('lang-dropdown');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        if (langToggleBtn && langDropdown) {
+            langToggleBtn.addEventListener('click', () => {
+                const isHidden = langDropdown.classList.contains('opacity-0');
+                if (isHidden) {
+                    langDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    langDropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                } else {
+                    langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                    langDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                }
+            });
+
+            // Close when clicked outside
+            document.addEventListener('click', (e) => {
+                if (!langToggleBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                    langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                    langDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                }
+            });
+        }
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = e.target.getAttribute('data-lang');
+                this.changeLanguage(lang);
+                langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                langDropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+            });
+        });
+
         // Search Toggle functionality
         const searchBtn = document.getElementById('search-toggle-btn');
         const searchContainer = document.getElementById('search-container');
@@ -82,6 +118,46 @@ class MenuApp {
         if (reviewBackdrop) reviewBackdrop.addEventListener('click', closeReviewModal);
     }
 
+    changeLanguage(lang) {
+        if (this.dataManager.setLanguage(lang)) {
+            this.updateStaticTexts();
+            this.render();
+        }
+    }
+
+    updateStaticTexts() {
+        const lang = this.dataManager.currentLanguage;
+        const t = translations[lang];
+        if (!t) return;
+
+        const langToggleBtn = document.getElementById('lang-toggle-btn');
+        if (langToggleBtn) langToggleBtn.textContent = lang.toUpperCase();
+
+        document.documentElement.lang = lang;
+
+        const elFineDining = document.getElementById('fine-dining-text');
+        if (elFineDining) elFineDining.textContent = t.fineDining;
+
+        const elSearchInput = document.getElementById('search-input');
+        if (elSearchInput) elSearchInput.placeholder = t.searchPlaceholder;
+
+        const elReviewTitle = document.getElementById('review-title');
+        if (elReviewTitle) elReviewTitle.textContent = t.reviewTitle;
+
+        const elReviewDesc = document.getElementById('review-desc');
+        if (elReviewDesc) elReviewDesc.textContent = t.reviewDesc;
+
+        const elReviewBtnText = document.getElementById('review-btn-text');
+        if (elReviewBtnText) elReviewBtnText.textContent = t.reviewBtn;
+        
+        // Also update category title placeholder if on 'all' and no search
+        if (this.currentCategoryId === 'all' && (!this.searchQuery || this.searchQuery.trim() === '')) {
+             if (this.renderer && this.renderer.categoryTitle) {
+                 this.renderer.categoryTitle.textContent = t.menuTitle;
+             }
+        }
+    }
+
     handleCategoryChange(categoryId) {
         if (this.currentCategoryId === categoryId) return;
         
@@ -116,7 +192,8 @@ class MenuApp {
         // 2. Fetch Items & Update Title
         let items = [];
         if (this.searchQuery && this.searchQuery.trim() !== '') {
-            this.renderer.categoryTitle.textContent = `"${this.searchQuery}" için sonuçlar`;
+            const t = translations[this.dataManager.currentLanguage];
+            this.renderer.categoryTitle.textContent = t ? t.searchResultsFor.replace('{0}', this.searchQuery) : `"${this.searchQuery}" için sonuçlar`;
             items = this.dataManager.searchItems(this.searchQuery);
         } else {
             this.renderer.updateCategoryTitle(this.currentCategoryId);

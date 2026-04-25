@@ -1,9 +1,29 @@
 class DataManager {
     constructor(data) {
-        this.restaurant = data.restaurant;
-        this.categories = data.categories;
-        this.items = data.items;
+        this.rawData = data;
+        this.currentLanguage = localStorage.getItem('appLang') || 'tr';
+        if (!this.rawData[this.currentLanguage]) {
+            this.currentLanguage = 'tr';
+        }
+        this.loadLanguageData();
         this.currentCategory = 'all';
+    }
+
+    loadLanguageData() {
+        const langData = this.rawData[this.currentLanguage];
+        this.restaurant = langData.restaurant;
+        this.categories = langData.categories;
+        this.items = langData.items;
+    }
+
+    setLanguage(lang) {
+        if (this.rawData[lang]) {
+            this.currentLanguage = lang;
+            localStorage.setItem('appLang', lang);
+            this.loadLanguageData();
+            return true;
+        }
+        return false;
     }
 
     getCategories() {
